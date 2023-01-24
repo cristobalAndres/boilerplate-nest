@@ -1,0 +1,12 @@
+SLACK_CHANNEL=ci-cd-chek
+PROJECT_NAME=transformacion-digital
+PROJECT_KEY=TDIGI
+CLOUD_RUN_NAME=br-ms-sd00276-oi00010-summaryperiod
+GCP_PROJECT=br-chek-dev
+SCAN_SOURCE=src
+SCAN_EXCLUDE_FILES=
+REDIS=false
+MYSQL=false
+REGISTRY_URL=gcr.io/br-gcp-cicd-devops
+REGISTRY_NAME=chek
+
