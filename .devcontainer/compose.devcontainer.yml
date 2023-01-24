@@ -1,0 +1,8 @@
+services:
+  br-ms-sd00276-oi00010-summaryperiod:
+    build:
+      dockerfile: .devcontainer/Dockerfile
+      target: dev
+    volumes:
+      - ./br-ms-sd00276-oi00010-summaryperiod:/app
+      - /app/node_modules/
