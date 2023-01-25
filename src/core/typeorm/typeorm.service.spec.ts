@@ -17,4 +17,13 @@ describe('TypeormService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should getTypeOrmConfig called one time', () => {
+    const spyGetTypeOrmConfig = jest.spyOn(
+      EnvironmentService.prototype,
+      'getTypeOrmConfig',
+    );
+    service.createTypeOrmOptions();
+    expect(spyGetTypeOrmConfig).toBeCalledTimes(1);
+  });
 });
