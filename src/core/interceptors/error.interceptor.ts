@@ -25,7 +25,7 @@ export class ErrorInterceptor implements NestInterceptor {
               {
                 statusCode: err.status || HttpStatus.INTERNAL_SERVER_ERROR,
                 message: err.message,
-                cause: err.cause,
+                cause: err.cause || err,
                 description: err.name,
               },
               err.status || HttpStatus.INTERNAL_SERVER_ERROR,
