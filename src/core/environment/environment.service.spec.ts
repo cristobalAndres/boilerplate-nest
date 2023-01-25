@@ -73,4 +73,28 @@ describe('EnvironmentService', () => {
       expect(environmentService.isSwaggerEnabled).toEqual(false);
     });
   });
+  describe('getTypeOrmConfig', () => {
+    it('should return typeorm config', () => {
+      const expected = {
+        type: 'mysql',
+        host: 'DB_HOST',
+        port: 3535,
+        username: 'DB_USER',
+        password: 'DB_PASSWORD',
+        database: 'DB_NAME',
+        entities: [],
+        migrations: [],
+        synchronize: !environmentService.isProd,
+        ssl: environmentService.isProd,
+      };
+      jest
+        .spyOn(environmentService, 'getEnvironmentValue')
+        .mockImplementation((key) => {
+          if (key === 'DB_PORT') return 3535;
+          return key;
+        });
+      const response = environmentService.getTypeOrmConfig();
+      expect(response).toEqual(expected);
+    });
+  });
 });
