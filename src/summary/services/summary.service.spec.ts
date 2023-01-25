@@ -8,7 +8,7 @@ describe('SummaryService', () => {
   let service: SummaryService;
   let datasource: DataSource;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [SummaryService, Logger, DataSource],
     })
