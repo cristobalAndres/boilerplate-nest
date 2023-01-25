@@ -9,5 +9,8 @@
  * if the variable is not set, and avoid that error when testing it.
  */
 process.env.NODE_ENV = 'test';
-process.env.URL_SENDGRID_AMBASSADOR = 'http://localhost:8080/url';
-process.env.FROM_EMAIL_SENDGRID = 'no-reply-test@check.ts';
+process.env.DB_HOST = 'DB_HOST';
+process.env.DB_PORT = 3535;
+process.env.DB_USER = 'DB_USER';
+process.env.DB_PASSWORD = 'DB_PASSWORD';
+process.env.DB_NAME = 'DB_NAME';
