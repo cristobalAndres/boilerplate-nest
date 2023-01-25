@@ -1,11 +1,14 @@
-import { ErrorInterceptor, SuccessInterceptor } from '@core/interceptors';
+import { HttpExeptionFilter } from '@core/filters';
+import { SuccessInterceptor } from '@core/interceptors';
 import {
   Body,
   Controller,
   HttpCode,
+  HttpException,
   HttpStatus,
   Logger,
   Post,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,7 +18,8 @@ import { SummaryService } from '../services/summary.service';
 
 @ApiTags('Get summary')
 @Controller('summary')
-@UseInterceptors(ErrorInterceptor, SuccessInterceptor)
+@UseInterceptors(SuccessInterceptor)
+@UseFilters(new HttpExeptionFilter())
 export class SummaryController {
   constructor(
     private summaryService: SummaryService,
@@ -25,8 +29,12 @@ export class SummaryController {
   @Post()
   @HttpCode(HttpStatus.OK)
   async findAll(@Body() body: RequestOptionsDTO): Promise<SummaryReponseDTO> {
-    const summary = await this.summaryService.getSummary(body);
-    if (summary instanceof Array) return summary[0];
-    return summary;
+    try {
+      const summary = await this.summaryService.getSummary(body);
+      if (summary instanceof Array) return summary[0];
+      return summary;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
