@@ -1,11 +1,12 @@
+import { ErrorInterceptor, SuccessInterceptor } from '@core/interceptors';
 import {
   Body,
   Controller,
   HttpCode,
-  HttpException,
   HttpStatus,
   Logger,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestOptionsDTO } from '../dto/request-options.dto';
@@ -14,6 +15,7 @@ import { SummaryService } from '../services/summary.service';
 
 @ApiTags('Get summary')
 @Controller('summary')
+@UseInterceptors(ErrorInterceptor, SuccessInterceptor)
 export class SummaryController {
   constructor(
     private summaryService: SummaryService,
