@@ -67,9 +67,10 @@ describe('AppController (e2e)', () => {
         })
         .expect({
           statusCode: 500,
-          message: expectErrorText,
+          path: '/summary',
+          message: 'Error getting summary',
+          description: 'HttpException',
           cause: {},
-          description: 'Error',
         });
     });
     describe('should return 400 Bad Request', () => {
@@ -83,7 +84,9 @@ describe('AppController (e2e)', () => {
           })
           .expect({
             statusCode: 400,
+            path: '/summary',
             message: 'Bad Request Exception',
+            description: 'BadRequestException',
             cause: {
               response: {
                 statusCode: 400,
@@ -98,7 +101,6 @@ describe('AppController (e2e)', () => {
               message: 'Bad Request Exception',
               name: 'BadRequestException',
             },
-            description: 'BadRequestException',
           });
       });
       it('when processDate with wrong value', async () => {
@@ -112,7 +114,9 @@ describe('AppController (e2e)', () => {
           })
           .expect({
             statusCode: 400,
+            path: '/summary',
             message: 'Bad Request Exception',
+            description: 'BadRequestException',
             cause: {
               response: {
                 statusCode: 400,
@@ -124,7 +128,6 @@ describe('AppController (e2e)', () => {
               message: 'Bad Request Exception',
               name: 'BadRequestException',
             },
-            description: 'BadRequestException',
           });
       });
       it('when userId is undefined', async () => {
@@ -137,7 +140,9 @@ describe('AppController (e2e)', () => {
           })
           .expect({
             statusCode: 400,
+            path: '/summary',
             message: 'Bad Request Exception',
+            description: 'BadRequestException',
             cause: {
               response: {
                 statusCode: 400,
@@ -152,7 +157,6 @@ describe('AppController (e2e)', () => {
               message: 'Bad Request Exception',
               name: 'BadRequestException',
             },
-            description: 'BadRequestException',
           });
       });
       it('when userId is empty', async () => {
@@ -166,7 +170,9 @@ describe('AppController (e2e)', () => {
           })
           .expect({
             statusCode: 400,
+            path: '/summary',
             message: 'Bad Request Exception',
+            description: 'BadRequestException',
             cause: {
               response: {
                 statusCode: 400,
@@ -178,7 +184,6 @@ describe('AppController (e2e)', () => {
               message: 'Bad Request Exception',
               name: 'BadRequestException',
             },
-            description: 'BadRequestException',
           });
       });
     });
