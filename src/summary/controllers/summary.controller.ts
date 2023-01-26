@@ -54,7 +54,31 @@ export class SummaryController {
   @HttpCode(HttpStatus.OK)
   async findAll(@Body() body: RequestOptionsDTO): Promise<SummaryReponseDTO> {
     try {
-      const summary = await this.summaryService.getSummary(body);
+      this.logger.log(
+        `[${SummaryController.name}: ${this.findAll.name}] init with body`,
+        {
+          body,
+        },
+      );
+      let summary = null;
+      const hasMovements = await this.summaryService.hasMovements(body);
+      this.logger.log(
+        `[${SummaryController.name}: ${this.findAll.name}] account has movements: ${hasMovements}`,
+        { hasMovements },
+      );
+      if (hasMovements) {
+        summary = await this.summaryService.getSummary(body);
+        this.logger.log(
+          `[${SummaryController.name}: ${this.findAll.name}] get summary`,
+          { summary },
+        );
+      } else {
+        summary = await this.summaryService.getLastMovement(body);
+        this.logger.log(
+          `[${SummaryController.name}: ${this.findAll.name}] get last movement`,
+          { summary },
+        );
+      }
       if (summary instanceof Array) return summary[0];
       return summary;
     } catch (error) {

@@ -77,7 +77,9 @@ export class SummaryService {
     );
   }
 
-  public async hasMovements(requestOptions: RequestOptionsDTO) {
+  public async hasMovements(
+    requestOptions: RequestOptionsDTO,
+  ): Promise<boolean> {
     const { processDate, accountId } = requestOptions;
     const rowsReturned = await this.dataSource.query(
       `
@@ -89,10 +91,12 @@ export class SummaryService {
       `,
       [accountId, processDate, processDate],
     );
-    return !(rowsReturned[0].movements === 0);
+    return Number.parseInt(rowsReturned[0].movements) !== 0;
   }
 
-  public async getLastMovement(requestOptions: RequestOptionsDTO) {
+  public async getLastMovement(
+    requestOptions: RequestOptionsDTO,
+  ): Promise<SummaryReponseDTO> {
     const { accountId } = requestOptions;
     const rowsReturned = await this.dataSource.query(
       `
@@ -108,8 +112,8 @@ export class SummaryService {
       FROM chek_transactions_db.movements AS movs
       LEFT JOIN chek_transactions_db.accounts AS acc ON movs.accountId = acc.id
       WHERE movs.accountId = ?
-      ORDER BY movs.createdAt DESC --order recent movement to old
-      LIMIT 1 --get only first
+      ORDER BY movs.createdAt DESC
+      LIMIT 1
       `,
       [accountId],
     );
