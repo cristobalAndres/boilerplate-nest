@@ -26,52 +26,127 @@ describe('AppController (e2e)', () => {
   });
 
   describe('/summary (POST)', () => {
-    it('should correct request', () => {
-      const expectResponse = {
-        id: 'id',
-        category: 'category',
-        nationalId: 'nationalId',
-        ownerType: 'ownerType',
-        firstBalance: 0,
-        lastBalance: 0,
-        totalDeposits: 0,
-        totalWithdraws: 0,
-        totalPayments: 0,
-        totalRefunds: 0,
-      } as SummaryReponseDTO;
-
-      jest.spyOn(service, 'getSummary').mockResolvedValue(expectResponse);
-      return request(app.getHttpServer())
-        .post('/summary')
-        .expect(200)
-        .send({
-          processDate: new Date('2023-01-31'),
-          accountId: 'accountId',
-        })
-        .expect({
-          statusCode: 200,
-          data: expectResponse,
-        });
+    describe('should correct request', () => {
+      it('when account has movements', () => {
+        const expectResponse = {
+          id: 'id',
+          category: 'category',
+          nationalId: 'nationalId',
+          ownerType: 'ownerType',
+          firstBalance: 0,
+          lastBalance: 0,
+          totalDeposits: 0,
+          totalWithdraws: 0,
+          totalPayments: 0,
+          totalRefunds: 0,
+        } as SummaryReponseDTO;
+        jest.spyOn(service, 'hasMovements').mockResolvedValue(true);
+        jest.spyOn(service, 'getSummary').mockResolvedValue(expectResponse);
+        return request(app.getHttpServer())
+          .post('/summary')
+          .expect(200)
+          .send({
+            processDate: new Date('2023-01-31'),
+            accountId: 'accountId',
+          })
+          .expect({
+            statusCode: 200,
+            data: expectResponse,
+          });
+      });
+      it('when account hasnt movements', () => {
+        const expectResponse = {
+          id: 'id',
+          category: 'category',
+          nationalId: 'nationalId',
+          ownerType: 'ownerType',
+          firstBalance: 0,
+          lastBalance: 0,
+          totalDeposits: 0,
+          totalWithdraws: 0,
+          totalPayments: 0,
+          totalRefunds: 0,
+        } as SummaryReponseDTO;
+        jest.spyOn(service, 'hasMovements').mockResolvedValue(false);
+        jest
+          .spyOn(service, 'getLastMovement')
+          .mockResolvedValue(expectResponse);
+        return request(app.getHttpServer())
+          .post('/summary')
+          .expect(200)
+          .send({
+            processDate: new Date('2023-01-31'),
+            accountId: 'accountId',
+          })
+          .expect({
+            statusCode: 200,
+            data: expectResponse,
+          });
+      });
     });
-    it('should return status code 500', () => {
-      const expectErrorText = 'Error getting summary';
-      jest
-        .spyOn(service, 'getSummary')
-        .mockRejectedValue(new Error(expectErrorText));
-      return request(app.getHttpServer())
-        .post('/summary')
-        .expect(500)
-        .send({
-          processDate: new Date('2023-01-31'),
-          accountId: 'accountId',
-        })
-        .expect({
-          statusCode: 500,
-          path: '/summary',
-          message: 'Error getting summary',
-          description: 'HttpException',
-          cause: {},
-        });
+    describe('should return status code 500', () => {
+      it('when getSummary fail', () => {
+        const expectErrorText = 'Error getting summary';
+        jest.spyOn(service, 'hasMovements').mockResolvedValue(true);
+        jest
+          .spyOn(service, 'getSummary')
+          .mockRejectedValue(new Error(expectErrorText));
+        return request(app.getHttpServer())
+          .post('/summary')
+          .expect(500)
+          .send({
+            processDate: new Date('2023-01-31'),
+            accountId: 'accountId',
+          })
+          .expect({
+            statusCode: 500,
+            path: '/summary',
+            message: expectErrorText,
+            description: 'HttpException',
+            cause: {},
+          });
+      });
+      it('when getLastMovement fail', () => {
+        const expectErrorText = 'Error getting last movement';
+        jest.spyOn(service, 'hasMovements').mockResolvedValue(false);
+        jest
+          .spyOn(service, 'getLastMovement')
+          .mockRejectedValue(new Error(expectErrorText));
+        return request(app.getHttpServer())
+          .post('/summary')
+          .expect(500)
+          .send({
+            processDate: new Date('2023-01-31'),
+            accountId: 'accountId',
+          })
+          .expect({
+            statusCode: 500,
+            path: '/summary',
+            message: expectErrorText,
+            description: 'HttpException',
+            cause: {},
+          });
+      });
+      it('when hasMovements fail', () => {
+        const expectErrorText = 'Error getting has movements';
+        jest
+          .spyOn(service, 'hasMovements')
+          .mockRejectedValue(new Error(expectErrorText));
+        return request(app.getHttpServer())
+          .post('/summary')
+          .expect(500)
+          .send({
+            processDate: new Date('2023-01-31'),
+            accountId: 'accountId',
+          })
+          .expect({
+            statusCode: 500,
+            path: '/summary',
+            message: expectErrorText,
+            description: 'HttpException',
+            cause: {},
+          });
+      });
     });
     describe('should return 400 Bad Request', () => {
       it('when processDate is undefined', async () => {
