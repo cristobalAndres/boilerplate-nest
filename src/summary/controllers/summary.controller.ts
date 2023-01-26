@@ -3,11 +3,13 @@ import { SuccessInterceptor } from '@core/interceptors';
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpException,
   HttpStatus,
   Logger,
   Post,
+  Query,
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
@@ -50,30 +52,30 @@ export class SummaryController {
     },
   })
   @ApiInternalServerErrorResponse()
-  @Post()
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Body() body: RequestOptionsDTO): Promise<SummaryReponseDTO> {
+  async findAll(@Query() query: RequestOptionsDTO): Promise<SummaryReponseDTO> {
     try {
       this.logger.log(
-        `[${SummaryController.name}: ${this.findAll.name}] init with body`,
+        `[${SummaryController.name}: ${this.findAll.name}] init with query`,
         {
-          body,
+          query,
         },
       );
       let summary = null;
-      const hasMovements = await this.summaryService.hasMovements(body);
+      const hasMovements = await this.summaryService.hasMovements(query);
       this.logger.log(
         `[${SummaryController.name}: ${this.findAll.name}] account has movements: ${hasMovements}`,
         { hasMovements },
       );
       if (hasMovements) {
-        summary = await this.summaryService.getSummary(body);
+        summary = await this.summaryService.getSummary(query);
         this.logger.log(
           `[${SummaryController.name}: ${this.findAll.name}] get summary`,
           { summary },
         );
       } else {
-        summary = await this.summaryService.getLastMovement(body);
+        summary = await this.summaryService.getLastMovement(query);
         this.logger.log(
           `[${SummaryController.name}: ${this.findAll.name}] get last movement`,
           { summary },

@@ -25,7 +25,7 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  describe('/summary (POST)', () => {
+  describe('/summary (GET)', () => {
     describe('should correct request', () => {
       it('when account has movements', () => {
         const expectResponse = {
@@ -43,12 +43,8 @@ describe('AppController (e2e)', () => {
         jest.spyOn(service, 'hasMovements').mockResolvedValue(true);
         jest.spyOn(service, 'getSummary').mockResolvedValue(expectResponse);
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31&accountId=accountId')
           .expect(200)
-          .send({
-            processDate: new Date('2023-01-31'),
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 200,
             data: expectResponse,
@@ -72,12 +68,8 @@ describe('AppController (e2e)', () => {
           .spyOn(service, 'getLastMovement')
           .mockResolvedValue(expectResponse);
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31&accountId=accountId')
           .expect(200)
-          .send({
-            processDate: new Date('2023-01-31'),
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 200,
             data: expectResponse,
@@ -92,15 +84,11 @@ describe('AppController (e2e)', () => {
           .spyOn(service, 'getSummary')
           .mockRejectedValue(new Error(expectErrorText));
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31&accountId=accountId')
           .expect(500)
-          .send({
-            processDate: new Date('2023-01-31'),
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 500,
-            path: '/summary',
+            path: '/summary?processDate=2023-01-31&accountId=accountId',
             message: expectErrorText,
             description: 'HttpException',
             cause: {},
@@ -113,15 +101,11 @@ describe('AppController (e2e)', () => {
           .spyOn(service, 'getLastMovement')
           .mockRejectedValue(new Error(expectErrorText));
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31&accountId=accountId')
           .expect(500)
-          .send({
-            processDate: new Date('2023-01-31'),
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 500,
-            path: '/summary',
+            path: '/summary?processDate=2023-01-31&accountId=accountId',
             message: expectErrorText,
             description: 'HttpException',
             cause: {},
@@ -133,15 +117,11 @@ describe('AppController (e2e)', () => {
           .spyOn(service, 'hasMovements')
           .mockRejectedValue(new Error(expectErrorText));
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31&accountId=accountId')
           .expect(500)
-          .send({
-            processDate: new Date('2023-01-31'),
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 500,
-            path: '/summary',
+            path: '/summary?processDate=2023-01-31&accountId=accountId',
             message: expectErrorText,
             description: 'HttpException',
             cause: {},
@@ -152,14 +132,11 @@ describe('AppController (e2e)', () => {
       it('when processDate is undefined', async () => {
         jest.spyOn(service, 'getSummary');
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?accountId=accountId')
           .expect(400)
-          .send({
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 400,
-            path: '/summary',
+            path: '/summary?accountId=accountId',
             message: 'Bad Request Exception',
             description: 'BadRequestException',
             cause: {
@@ -181,15 +158,11 @@ describe('AppController (e2e)', () => {
       it('when processDate with wrong value', async () => {
         jest.spyOn(service, 'getSummary');
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=hola&accountId=accountId')
           .expect(400)
-          .send({
-            processDate: 'gola',
-            accountId: 'accountId',
-          })
           .expect({
             statusCode: 400,
-            path: '/summary',
+            path: '/summary?processDate=hola&accountId=accountId',
             message: 'Bad Request Exception',
             description: 'BadRequestException',
             cause: {
@@ -208,14 +181,11 @@ describe('AppController (e2e)', () => {
       it('when accountId is undefined', async () => {
         jest.spyOn(service, 'getSummary');
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31')
           .expect(400)
-          .send({
-            processDate: new Date('2023-01-31'),
-          })
           .expect({
             statusCode: 400,
-            path: '/summary',
+            path: '/summary?processDate=2023-01-31',
             message: 'Bad Request Exception',
             description: 'BadRequestException',
             cause: {
@@ -237,15 +207,11 @@ describe('AppController (e2e)', () => {
       it('when accountId is empty', async () => {
         jest.spyOn(service, 'getSummary');
         return request(app.getHttpServer())
-          .post('/summary')
+          .get('/summary?processDate=2023-01-31&accountId=')
           .expect(400)
-          .send({
-            processDate: new Date('2023-01-31'),
-            accountId: '',
-          })
           .expect({
             statusCode: 400,
-            path: '/summary',
+            path: '/summary?processDate=2023-01-31&accountId=',
             message: 'Bad Request Exception',
             description: 'BadRequestException',
             cause: {
