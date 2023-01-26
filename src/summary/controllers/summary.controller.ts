@@ -11,7 +11,11 @@ import {
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { RequestOptionsDTO } from '../dto/request-options.dto';
 import { SummaryReponseDTO } from '../dto/summary-response.dto';
 import { SummaryService } from '../services/summary.service';
@@ -26,6 +30,26 @@ export class SummaryController {
     private readonly logger: Logger,
   ) {}
 
+  @ApiOkResponse({
+    schema: {
+      example: {
+        statusCode: HttpStatus.OK,
+        data: {
+          id: 'ad438cx0xayo03d',
+          category: 't3',
+          nationalId: '99999999-0',
+          ownerType: 'fu39kdñoa8jf9j',
+          firstBalance: 1500,
+          lastBalance: 4000,
+          totalDeposits: 2500,
+          totalWithdraws: 0,
+          totalPayments: 0,
+          totalRefunds: 0,
+        },
+      },
+    },
+  })
+  @ApiInternalServerErrorResponse()
   @Post()
   @HttpCode(HttpStatus.OK)
   async findAll(@Body() body: RequestOptionsDTO): Promise<SummaryReponseDTO> {
