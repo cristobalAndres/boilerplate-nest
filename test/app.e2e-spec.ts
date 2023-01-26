@@ -46,7 +46,7 @@ describe('AppController (e2e)', () => {
         .expect(200)
         .send({
           processDate: new Date('2023-01-31'),
-          userId: 'userId',
+          accountId: 'accountId',
         })
         .expect({
           statusCode: 200,
@@ -63,7 +63,7 @@ describe('AppController (e2e)', () => {
         .expect(500)
         .send({
           processDate: new Date('2023-01-31'),
-          userId: 'userId',
+          accountId: 'accountId',
         })
         .expect({
           statusCode: 500,
@@ -80,7 +80,7 @@ describe('AppController (e2e)', () => {
           .post('/summary')
           .expect(400)
           .send({
-            userId: 'userId',
+            accountId: 'accountId',
           })
           .expect({
             statusCode: 400,
@@ -110,7 +110,7 @@ describe('AppController (e2e)', () => {
           .expect(400)
           .send({
             processDate: 'gola',
-            userId: 'userId',
+            accountId: 'accountId',
           })
           .expect({
             statusCode: 400,
@@ -130,7 +130,7 @@ describe('AppController (e2e)', () => {
             },
           });
       });
-      it('when userId is undefined', async () => {
+      it('when accountId is undefined', async () => {
         jest.spyOn(service, 'getSummary');
         return request(app.getHttpServer())
           .post('/summary')
@@ -147,8 +147,8 @@ describe('AppController (e2e)', () => {
               response: {
                 statusCode: 400,
                 message: [
-                  'userId should not be empty',
-                  'userId must be a string',
+                  'accountId should not be empty',
+                  'accountId must be a string',
                 ],
                 error: 'Bad Request',
               },
@@ -159,14 +159,14 @@ describe('AppController (e2e)', () => {
             },
           });
       });
-      it('when userId is empty', async () => {
+      it('when accountId is empty', async () => {
         jest.spyOn(service, 'getSummary');
         return request(app.getHttpServer())
           .post('/summary')
           .expect(400)
           .send({
             processDate: new Date('2023-01-31'),
-            userId: '',
+            accountId: '',
           })
           .expect({
             statusCode: 400,
@@ -176,7 +176,7 @@ describe('AppController (e2e)', () => {
             cause: {
               response: {
                 statusCode: 400,
-                message: ['userId should not be empty'],
+                message: ['accountId should not be empty'],
                 error: 'Bad Request',
               },
               status: 400,

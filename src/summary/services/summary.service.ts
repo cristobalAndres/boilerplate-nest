@@ -10,7 +10,7 @@ export class SummaryService {
   public async getSummary(
     requestOptions: RequestOptionsDTO,
   ): Promise<SummaryReponseDTO> {
-    const { processDate, userId } = requestOptions;
+    const { processDate, accountId: accountId } = requestOptions;
     return await this.dataSource.query(
       `
         SELECT accounts.id AS id,
@@ -72,7 +72,7 @@ export class SummaryService {
         processDate,
         processDate,
         processDate,
-        userId,
+        accountId,
       ],
     );
   }

@@ -20,5 +20,5 @@ export class RequestOptionsDTO {
   })
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  accountId: string;
 }

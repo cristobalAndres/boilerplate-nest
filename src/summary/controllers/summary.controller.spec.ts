@@ -40,7 +40,7 @@ describe('SummaryController', () => {
     it('showld called with correct arguments', () => {
       const requestData = {
         processDate: new Date('2023-01-31'),
-        userId: 'userId',
+        accountId: 'accountId',
       } as RequestOptionsDTO;
       const spyGetSummary = jest.spyOn(service, 'getSummary');
       controller.findAll(requestData);
@@ -52,7 +52,7 @@ describe('SummaryController', () => {
     it('showld called with correct arguments', () => {
       const requestData = {
         processDate: new Date('2023-01-31'),
-        userId: 'userId',
+        accountId: 'accountId',
       } as RequestOptionsDTO;
       const spyFindAll = jest.spyOn(controller, 'findAll');
       controller.findAll(requestData);
@@ -62,7 +62,7 @@ describe('SummaryController', () => {
       it('when getSummary return array with one object', async () => {
         const requestData = {
           processDate: new Date('2023-01-31'),
-          userId: 'userId',
+          accountId: 'accountId',
         } as RequestOptionsDTO;
         jest.spyOn(service, 'getSummary').mockResolvedValue([
           {
@@ -77,7 +77,7 @@ describe('SummaryController', () => {
       it('when getSummary return array with two object return first', async () => {
         const requestData = {
           processDate: new Date('2023-01-31'),
-          userId: 'userId',
+          accountId: 'accountId',
         } as RequestOptionsDTO;
         jest.spyOn(service, 'getSummary').mockResolvedValue([
           {
@@ -95,7 +95,7 @@ describe('SummaryController', () => {
       it('when getSummary return object', async () => {
         const requestData = {
           processDate: new Date('2023-01-31'),
-          userId: 'userId',
+          accountId: 'accountId',
         } as RequestOptionsDTO;
         jest.spyOn(service, 'getSummary').mockResolvedValue({
           a: 'a',

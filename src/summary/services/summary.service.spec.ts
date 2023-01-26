@@ -31,7 +31,7 @@ describe('SummaryService', () => {
   it('should getSummary called with correct argument', () => {
     const arg = {
       processDate: new Date('2023-01-31'),
-      userId: 'userID',
+      accountId: 'accountId',
     };
     const spyGetSummary = jest.spyOn(service, 'getSummary');
     service.getSummary(arg);
@@ -41,7 +41,7 @@ describe('SummaryService', () => {
   it('should query datasource called', async () => {
     const arg = {
       processDate: new Date('2023-01-31'),
-      userId: 'userID',
+      accountId: 'accountId',
     };
     const spyQuery = jest.spyOn(datasource, 'query');
     await service.getSummary(arg);
