@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { SummaryService } from './../src/summary/services/summary.service';
+import { SummaryService } from '@app/services/summary.service';
 import { createMock } from '@golevelup/ts-jest';
-import { SummaryReponseDTO } from './../src/summary/dto/summary-response.dto';
+import { SummaryReponseDTO } from '@app/dto/summary-response.dto';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
