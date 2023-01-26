@@ -10,7 +10,7 @@ export class SummaryService {
   public async getSummary(
     requestOptions: RequestOptionsDTO,
   ): Promise<SummaryReponseDTO> {
-    const { processDate, accountId: accountId } = requestOptions;
+    const { processDate, accountId } = requestOptions;
     return await this.dataSource.query(
       `
         SELECT accounts.id AS id,
@@ -75,5 +75,44 @@ export class SummaryService {
         accountId,
       ],
     );
+  }
+
+  public async hasMovements(requestOptions: RequestOptionsDTO) {
+    const { processDate, accountId } = requestOptions;
+    const rowsReturned = await this.dataSource.query(
+      `
+        SELECT COUNT(id) AS movements 
+        FROM chek_transactions_db.movements 
+        WHERE accountId = ?
+        AND YEAR(createdAt) = YEAR(?) 
+        AND MONTH(createdAt) = (MONTH(?));
+      `,
+      [accountId, processDate, processDate],
+    );
+    return !(rowsReturned[0].movements === 0);
+  }
+
+  public async getLastMovement(requestOptions: RequestOptionsDTO) {
+    const { accountId } = requestOptions;
+    const rowsReturned = await this.dataSource.query(
+      `
+      SELECT
+        movs.accountId AS id,
+        acc.category AS category,
+        acc.ownerType AS ownerType,
+        movs.remainingBalance AS firstBalance,
+        movs.remainingBalance AS lastBalance,
+        0 AS totalDeposits,
+        0 AS totalWithdraws,
+        0 AS totalRefunds
+      FROM chek_transactions_db.movements AS movs
+      LEFT JOIN chek_transactions_db.accounts AS acc ON movs.accountId = acc.id
+      WHERE movs.accountId = ?
+      ORDER BY movs.createdAt DESC --order recent movement to old
+      LIMIT 1 --get only first
+      `,
+      [accountId],
+    );
+    return rowsReturned[0];
   }
 }
