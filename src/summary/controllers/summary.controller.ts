@@ -23,7 +23,7 @@ import { SummaryReponseDTO } from '../dto/summary-response.dto';
 import { SummaryService } from '../services/summary.service';
 
 @ApiTags('Get summary')
-@Controller('summary')
+@Controller('product-processing')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(new HttpExeptionFilter())
 export class SummaryController {
@@ -52,7 +52,7 @@ export class SummaryController {
     },
   })
   @ApiInternalServerErrorResponse()
-  @Get()
+  @Get('request')
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() query: RequestOptionsDTO): Promise<SummaryReponseDTO> {
     try {

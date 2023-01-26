@@ -21,7 +21,9 @@ async function bootstrap() {
   const environmentSrvc = app.get(EnvironmentService);
 
   // use app
-  app.setGlobalPrefix(serviceName);
+  app.setGlobalPrefix(
+    'sd00276_customereventhistory_oi00010/v1/customer-event-history',
+  );
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: [VERSION_NEUTRAL],
