@@ -1,4 +1,4 @@
-import { HttpExeptionFilter } from '@core/filters';
+import { HttpExceptionFilter } from '@core/filters';
 import { SuccessInterceptor } from '@core/interceptors';
 import {
   Body,
@@ -25,7 +25,7 @@ import { SummaryService } from '../services/summary.service';
 @ApiTags('Get summary')
 @Controller('product-processing')
 @UseInterceptors(SuccessInterceptor)
-@UseFilters(new HttpExeptionFilter())
+@UseFilters(new HttpExceptionFilter())
 export class SummaryController {
   constructor(
     private summaryService: SummaryService,
