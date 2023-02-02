@@ -25,7 +25,7 @@ import { SummaryService } from '../services/summary.service';
 @ApiTags('Get summary')
 @Controller('product-processing')
 @UseInterceptors(SuccessInterceptor)
-@UseFilters(new HttpExceptionFilter())
+@UseFilters(HttpExceptionFilter)
 export class SummaryController {
   constructor(
     private summaryService: SummaryService,
