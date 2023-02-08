@@ -26,7 +26,7 @@ export class SuccessInterceptor implements NestInterceptor {
         map(
           (data) =>
             ({
-              data,
+              data: data || null,
               statusCode: context.getArgByIndex(1).statusCode,
             } as SuccessResponseDto),
         ),
