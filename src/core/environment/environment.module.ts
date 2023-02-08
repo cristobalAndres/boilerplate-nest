@@ -19,6 +19,7 @@ import { EnvironmentService } from './environment.service';
         DB_USER: Joi.string().default('root'),
         DB_PASSWORD: Joi.string(),
         DB_NAME: Joi.string(),
+        DB_SOCKET_PATH: Joi.string(),
       }),
     }),
   ],

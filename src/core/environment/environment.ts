@@ -7,4 +7,5 @@ export type Environment = {
   DB_USER: string;
   DB_PASSWORD: string;
   DB_NAME: string;
+  DB_SOCKET_PATH: string;
 };

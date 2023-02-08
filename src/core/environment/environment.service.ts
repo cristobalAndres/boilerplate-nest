@@ -25,16 +25,18 @@ export class EnvironmentService {
 
   getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
+      socketPath: this.isProd
+        ? this.getEnvironmentValue('DB_SOCKET_PATH')
+        : null,
       type: 'mysql',
-      host: this.getEnvironmentValue('DB_HOST'),
       port: this.getEnvironmentValue('DB_PORT'),
+      host: this.isProd ? null : this.getEnvironmentValue('DB_HOST'),
       username: this.getEnvironmentValue('DB_USER'),
       password: this.getEnvironmentValue('DB_PASSWORD'),
       database: this.getEnvironmentValue('DB_NAME'),
       entities: [],
       migrations: [],
       synchronize: !this.isProd, //!!shouldn't be used in production - otherwise you can lose production data.
-      ssl: this.isProd,
     };
   }
 }
