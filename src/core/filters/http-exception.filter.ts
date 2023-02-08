@@ -20,7 +20,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const description = exception.name;
     const cause = exception.cause || exception;
     const res = {
-      statusCode: status,
       path: request.url,
       message,
       description,
