@@ -1,0 +1,31 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/to-do-list-f325b/test-cloud-run', '.']
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/to-do-list-f325b/test-cloud-run']
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        'test-cloud-run',
+        '--image',
+        'gcr.io/to-do-list-f325b/test-cloud-run',
+        '--region',
+        'us-west1',
+        '--platform',
+        'managed',
+        '--port',
+        '3000',
+        '--allow-unauthenticated',
+        '--set-secrets=WELCOME_ENVS=test-cloud-run:latest',
+        '--set-secrets=PASSWORD_BD=PASSWORD_BD:latest',
+        '--add-cloudsql-instances',
+        'to-do-list-f325b:us-central1:testcloudrun',
+      ]
+images:
+  - gcr.io/to-do-list-f325b/test-cloud-run

@@ -2,7 +2,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DataSource } from 'typeorm';
-import { SummaryService } from './summary.service';
+import { SummaryService } from './welcome.service';
 
 describe('SummaryService', () => {
   let service: SummaryService;

@@ -1,10 +1,14 @@
-FROM node:14-slim as production
+FROM node:alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
 
 COPY . .
-RUN npm i --only=prod
-RUN npm i -g @nestjs/cli
+
 RUN npm run build
 
-CMD ["node", "dist/main"]
+EXPOSE 3000
+CMD [ "npm", "run", "start:prod" ].

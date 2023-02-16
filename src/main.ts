@@ -12,7 +12,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
 
-const serviceName = 'br-ms-sd00276-oi00010-symmaryperiod';
+const serviceName = '';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,9 +21,7 @@ async function bootstrap() {
   const environmentSrvc = app.get(EnvironmentService);
 
   // use app
-  app.setGlobalPrefix(
-    'sd00276_customereventhistory_oi00010/v1/customer-event-history',
-  );
+  app.setGlobalPrefix('');
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: [VERSION_NEUTRAL],
@@ -39,7 +37,7 @@ async function bootstrap() {
   );
 
   // get variables
-  const port = environmentSrvc.getEnvironmentValue('PORT');
+  const port = environmentSrvc.getEnvironmentValue('PORT') || 3000;
   // validations
   if (environmentSrvc.isSwaggerEnabled) enableSwagger(app, port);
 
@@ -51,7 +49,7 @@ async function bootstrap() {
 function enableSwagger(app: INestApplication, port: number) {
   const config = new DocumentBuilder()
     .setTitle(serviceName)
-    .setDescription('Microservice for get summary period')
+    .setDescription('Microservice for welcome')
     .setVersion('1.0')
     .setExternalDoc('Postman collection', '/api-doc-json')
     .build();
