@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-import { WelcomeService } from '../services/welcome.service';
+import { WelcomeService } from '../services/database/welcome.service';
 
 @ApiTags('Welcome')
 @UseInterceptors(SuccessInterceptor)
@@ -29,10 +29,10 @@ export class WelcomeController {
         envs: {
           NODE_ENV: 'development',
           ENABLE_SWAGGER: true,
-          DB_HOST: '130.211.192.142',
+          DB_HOST: 'xxx.xxx.xxx.xxx',
           DB_PORT: 3306,
           DB_USER: 'root',
-          DB_PASSWORD: 'testcloudrun01',
+          DB_PASSWORD: 'xxxxxxxxx',
           DB_NAME: 'testcloud',
           DB_SOCKET_PATH: '/cloudsql/to-do-list-f325b:us-central1:testcloudrun',
         },

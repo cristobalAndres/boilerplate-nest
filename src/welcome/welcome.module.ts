@@ -1,5 +1,5 @@
 import { Logger, Module } from '@nestjs/common';
-import { WelcomeService } from './services/welcome.service';
+import { WelcomeService } from './services/database/welcome.service';
 import { WelcomeController } from './controllers/welcome.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentModule, EnvironmentService } from '@core/environment';
