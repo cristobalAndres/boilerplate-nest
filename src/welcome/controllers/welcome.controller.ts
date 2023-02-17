@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-import { WelcomeService } from '../services/database/welcome.service';
+import { AccessRepository } from '../services/database/access.repository';
 
 @ApiTags('Welcome')
 @UseInterceptors(SuccessInterceptor)
@@ -19,7 +19,7 @@ import { WelcomeService } from '../services/database/welcome.service';
 @Controller()
 export class WelcomeController {
   constructor(
-    private welcomeService: WelcomeService,
+    private accessRepository: AccessRepository,
     private readonly logger: Logger,
   ) {}
 
@@ -51,7 +51,7 @@ export class WelcomeController {
   @Get('welcome')
   @HttpCode(HttpStatus.OK)
   async findAll() {
-    const data = await this.welcomeService.findAll();
+    const data = await this.accessRepository.findAll();
     const envs = process.env;
     const returnData = {
       envs,

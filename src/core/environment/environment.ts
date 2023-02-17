@@ -10,4 +10,8 @@ export type Environment = {
   DB_NAME: string;
   DB_SOCKET_PATH: string;
   PASSWORD_BD: string;
+  FIREBASE_CREDENTIALS: string;
+  REDISHOST: string;
+  REDISPORT: number;
+  REDISAUTH: string;
 };

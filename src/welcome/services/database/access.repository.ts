@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Access } from '../../../core/entities/access/access.entity';
 
 @Injectable()
-export class WelcomeService {
+export class AccessRepository {
   constructor(
     @InjectRepository(Access)
     private usersRepository: Repository<Access>,
