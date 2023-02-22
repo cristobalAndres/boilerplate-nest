@@ -1,5 +1,5 @@
 import { Logger, Module } from '@nestjs/common';
-import { WelcomeService } from './services/database/access.repository.spec';
+import { AccessRepository } from './services/database/access.repository';
 import { WelcomeController } from './controllers/welcome.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentModule, EnvironmentService } from '@core/environment';
@@ -17,7 +17,7 @@ import { Access } from '../core/entities/access/access.entity';
     TypeOrmModule.forFeature([Access]),
   ],
   providers: [
-    WelcomeService,
+    AccessRepository,
     Logger,
     // FirebaseService
   ],

@@ -13,22 +13,43 @@ export class EnvironmentService {
   getEnvironmentValue<Key extends keyof Environment>(
     key: Key,
   ): Environment[Key] {
-    return JSON.parse(this.configService.getOrThrow('WELCOME_ENVS'))[key];
+    if (this.isProd) {
+      return this.formatEnvs('WELCOME_ENVS')[key];
+    }
+    return this.configService.getOrThrow(key);
   }
 
   get isSwaggerEnabled(): boolean {
-    return JSON.parse(this.configService.getOrThrow('WELCOME_ENVS'));
+    if (this.isProd) {
+      return this.formatEnvs('WELCOME_ENVS').ENABLE_SWAGGER;
+    }
+    return this.configService.getOrThrow('ENABLE_SWAGGER');
   }
 
   get isProd(): boolean {
-    return (
-      JSON.parse(this.configService.getOrThrow('WELCOME_ENVS')).NODE_ENV ===
-      'production'
-    );
+    if (
+      this.configService.getOrThrow('WELCOME_ENVS') &&
+      this.formatEnvs('WELCOME_ENVS').NODE_ENV === 'production'
+    ) {
+      return true;
+    } else if (this.configService.getOrThrow('NODE_ENV') === 'production') {
+      return true;
+    }
+    return false;
   }
 
   get passwordDatabase(): string {
     return this.configService.getOrThrow('PASSWORD_BD');
+  }
+
+  formatEnvs<Key extends keyof Environment>(key: Key) {
+    return Object.fromEntries(
+      this.configService
+        .getOrThrow(key)
+        .split('\n')
+        .map((pair) => pair.split('='))
+        .map(([key, value]) => [key, value]),
+    );
   }
 
   getTypeOrmConfig(): TypeOrmModuleOptions {
