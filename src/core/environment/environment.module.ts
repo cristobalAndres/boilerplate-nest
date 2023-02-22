@@ -26,19 +26,6 @@ import { EnvironmentService } from './environment.service';
         REDISHOST: Joi.string().default(''),
         REDISPORT: Joi.number().default(1234),
         REDISAUTH: Joi.string().default(''),
-        // WELCOME_ENVS: Joi.object().keys({
-        //     NODE_ENV: Joi.string()
-        //     .valid('development', 'production', 'test')
-        //     .default('development'),
-        //   PORT: Joi.number().default(8080),
-        //   ENABLE_SWAGGER: Joi.boolean().default(true),
-        //   DB_HOST: Joi.string().default('localhost'),
-        //   DB_PORT: Joi.number().default(3306),
-        //   DB_USER: Joi.string().default('root'),
-        //   DB_PASSWORD: Joi.string(),
-        //   DB_NAME: Joi.string(),
-        //   DB_SOCKET_PATH: Joi.string(),
-        //   }),
       }),
     }),
   ],

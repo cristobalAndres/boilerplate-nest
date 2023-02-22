@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-import { AccessRepository } from '../services/database/access.repository';
+import { AccessRepository } from '../repositories/access.repository';
 
 @ApiTags('Welcome')
 @UseInterceptors(SuccessInterceptor)
